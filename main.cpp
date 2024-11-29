@@ -13,13 +13,60 @@ std::string getStringNumber(const long len)
     return result;
 }
 
-std::vector<long> stringToVecotr(const std::string str, const long digitlen)
+std::vector<long> stringToVector(const std::string str, const long digitlen)
 {
     long len = str.length();
-    std::vector<long> result(len / digitlen, 0);
+    std::vector<long> result(long(std::ceil(len / double(digitlen))), 0);
 
+    for (long i = 0; i < len / digitlen; i++) {
+        result[i] = std::stol(str.substr(len - (i + 1) * digitlen, digitlen));
+    }
+
+    if (len % digitlen > 0) {
+        result[len / digitlen] = std::stol(str.substr(0, len % digitlen));
+    }
+
+    return result;
 }
 
+void printVector(const std::vector<long> vec)
+{
+    for (long i = 0; i < vec.size(); i++) std::cout << vec[i] << ' ';
+    std::cout << std::endl;
+}
+
+long hashFunction(const std::vector<long> vec)
+{
+    long result = 0;
+    long q = 123456789;
+    long temp;
+    for (long i = 0; i < vec.size(); i++) {
+        temp = vec[i];
+        while (temp > 0) {
+            result += temp % 10;
+            result %= q;
+            temp /= 10;
+        }
+        
+    }
+    return result;
+}
+
+std::vector<long> naiveMult(std::vector<long> first, std::vector<long> second, long base)
+{
+    const long len1 = first.size();
+    const long len2 = second.size();
+    std::vector<long> result(len1 + len2, 0);
+
+    for (long i = 0; i < len1; i++) {
+        for (long j = 0; j < len2; j--) {
+            result[i + j] += first[i] * second[j];
+            result[i + j + 1] += result[i + j] / base;
+            result[i + j] %= base;
+        }
+    }
+
+}
 
 int main()
 {
