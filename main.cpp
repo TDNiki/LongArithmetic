@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <cstring>
+#include <string>
 #include <cmath>
 
 
@@ -59,13 +59,13 @@ std::vector<long> naiveMult(std::vector<long> first, std::vector<long> second, l
     std::vector<long> result(len1 + len2, 0);
 
     for (long i = 0; i < len1; i++) {
-        for (long j = 0; j < len2; j--) {
+        for (long j = 0; j < len2; j++) {
             result[i + j] += first[i] * second[j];
             result[i + j + 1] += result[i + j] / base;
             result[i + j] %= base;
         }
     }
-
+    return result;
 }
 
 int main()
@@ -84,7 +84,7 @@ int main()
     printVector(secondVector);
 
     long base = std::pow(10, digit_len);
-    std::vector<long> result naiveMult(firstVector, secondVector, base);
+    std::vector<long> result =  naiveMult(firstVector, secondVector, base);
     printVector(result);
     std::cout << hashFunction(result);
 
