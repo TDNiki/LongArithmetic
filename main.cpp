@@ -52,7 +52,7 @@ long hashFunction(const std::vector<long> vec)
     return result;
 }
 
-std::vector<long> karatsubaMult(std::vector<long> first, std::vector<long> second, long base)
+std::vector<long> karatsubaMult(std::vector<long> &first, std::vector<long> &second, const long base)
 {
 
 }
