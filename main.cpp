@@ -65,6 +65,8 @@ std::vector<long> naiveMult(std::vector<long> first, std::vector<long> second, l
             result[i + j] %= base;
         }
     }
+
+    while (result[result.size() - 1] == 0) result.pop_back(); // Убиравет нули с конца, странно, надо узнать зачем
     return result;
 }
 
