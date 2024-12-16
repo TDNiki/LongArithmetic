@@ -54,10 +54,22 @@ long hashFunction(const std::vector<long> vec)
 
 std::vector<long> karatsubaMult(std::vector<long> &first, std::vector<long> &second, const long base)
 {
+    
+    const long len1 = first.size();
+    const long len2 = first.size();
+    long len = std::max(len1, len2); // Все будет относительно максимального числа
+    // Если длина числа нечетная, то нужно довести до четного состояния
+    len = len % 2 == 0 ? len : len + 1;
 
+    // Далее идет алгоритм из разряда разделяй и властвуй.
+    /*Для маленьких чисел данный алгоритм не имеет смысла, т.к. даже наивный алгоритм целесообразнее (быстрее)*/
+    if (len <= 10) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
+
+    //13-19
 }
 
 std::vector<long> naiveMult(std::vector<long> &first, std::vector<long> &second, const long base)
+// Перемножение столбиком
 {
     const long len1 = first.size();
     const long len2 = second.size();
