@@ -52,9 +52,9 @@ long hashFunction(const std::vector<long> vec)
     return result;
 }
 
-std::vector<long> sub(std::vector<long> &first, std::vector<long> &second, const long base)
+std::vector<long> add(std::vector<long> &first, std::vector<long> &second, const long base)
 {
-    
+
 }
 
 std::vector<long> karatsubaMult(std::vector<long> &first, std::vector<long> &second, const long base)
