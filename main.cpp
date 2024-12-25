@@ -168,18 +168,18 @@ int main()
     long len = 4;
     std::string firstString = getStringNumber(len);
     std::string secondString = getStringNumber(len);
-    //std::cout << firstString << " " << secondString << std::endl;
+    std::cout << firstString << " " << secondString << std::endl;
 
     int digit_len = 2;
     std::vector<long> firstVector = stringToVector(firstString, digit_len);
     std::vector<long> secondVector = stringToVector(secondString, digit_len);
-    //printVector(firstVector);
-    //printVector(secondVector);
+    printVector(firstVector);
+    printVector(secondVector);
 
     long base = std::pow(10, digit_len);
     std::vector<long> result =  karatsubaMult(firstVector, secondVector, base);
-    //printVector(result);
-    std::cout << hashFunction(result);
+    printVector(result);
+    //std::cout << hashFunction(result);
 
     return 0;
 }
