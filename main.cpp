@@ -3,6 +3,7 @@
 #include <string>
 #include "BigDigit.h"
 #include <cmath>
+#include <chrono>
 
 
 std::string getStringNumber(const long len)
@@ -56,23 +57,42 @@ long hashFunction(const std::vector<long> vec)
 
 int main()
 {
-    srand(0);
+    const long max_len = 200;
+    const long tests = 1;
+    const long digit_len = 2;
+    const long base = std::pow(10, digit_len);
+    for (long i = 10; i < max_len; i *= 2) {
+        srand(0);
+        std::string firstString = getStringNumber(i);
+        std::string secondString = getStringNumber(i);
+        std::cout << firstString << " " << secondString << std::endl; //DEBUG
+        std::vector<long> firstVector = stringToVector(firstString, digit_len);
+        std::vector<long> secondVector = stringToVector(secondString, digit_len);
+        printVector(firstVector); //DEBUG
+        printVector(secondVector); //DEBUG
 
-    long len = 4;
-    std::string firstString = getStringNumber(len);
-    std::string secondString = getStringNumber(len);
-    std::cout << firstString << " " << secondString << std::endl;
+        auto start = std::chrono::high_resolution_clock::now();
+        for (long j = 0; j < tests; j++) {
+            std::vector<long> result =  naiveMult(firstVector, secondVector, base);
+            printVector(result);
+            std::cout << "HashSum: " << hashFunction(result) << std::endl;
+            result.clear();
+        }
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds> (end - start);
+        std::cout << duration.count() / tests << std::endl; //DEBUG
+    }
 
-    int digit_len = 2;
-    std::vector<long> firstVector = stringToVector(firstString, digit_len);
-    std::vector<long> secondVector = stringToVector(secondString, digit_len);
-    printVector(firstVector);
-    printVector(secondVector);
+    
 
-    long base = std::pow(10, digit_len);
-    std::vector<long> result =  karatsubaMult(firstVector, secondVector, base);
-    printVector(result);
-    //std::cout << hashFunction(result);
+    
+    
+    
+
+    
+    
+    
+    
 
     return 0;
 }
