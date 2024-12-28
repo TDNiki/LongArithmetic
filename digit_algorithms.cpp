@@ -43,7 +43,7 @@ std::vector<long> naiveMult(std::vector<long> &first, std::vector<long> &second,
 {
     const long len1 = first.size();
     const long len2 = second.size();
-    std::vector<long> result(len1 + len2, 0);
+    std::vector<long> result(len1 + len2 + 1, 0);
 
     for (long i = 0; i < len1; i++) {
         for (long j = 0; j < len2; j++) {
@@ -66,7 +66,7 @@ std::vector<long> karatsubaMult(std::vector<long> &first, std::vector<long> &sec
     const long len2 = first.size();
     long len = std::max(len1, len2); // Все будет относительно максимального числа
     // Если длина числа нечетная, то нужно довести до четного состояния
-    len = len % 2 == 0 ? len : len + 1;
+    len = (len % 2 == 0) ? len : len + 1;
 
     // Далее идет алгоритм из разряда разделяй и властвуй.
     /*Для маленьких чисел данный алгоритм не имеет смысла, т.к. даже наивный алгоритм целесообразнее (быстрее)*/

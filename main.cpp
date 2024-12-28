@@ -57,10 +57,11 @@ long hashFunction(const std::vector<long> vec)
 
 int main()
 {
-    const long max_len = 200;
+    const long max_len = 1000;
     const long tests = 1;
-    const long digit_len = 2;
+    const long digit_len = 9;
     const long base = std::pow(10, digit_len);
+
     for (long i = 10; i < max_len; i *= 2) {
         srand(0);
         std::string firstString = getStringNumber(i);
@@ -73,14 +74,13 @@ int main()
 
         auto start = std::chrono::high_resolution_clock::now();
         for (long j = 0; j < tests; j++) {
-            std::vector<long> result =  naiveMult(firstVector, secondVector, base);
-            printVector(result);
-            std::cout << "HashSum: " << hashFunction(result) << std::endl;
-            result.clear();
+            std::vector<long> result =  karatsubaMult(firstVector, secondVector, base);
+            printVector(result); //DEBUG
+            std::cout << "HashSum: " << hashFunction(result) << std::endl; //DEBUG
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds> (end - start);
-        std::cout << duration.count() / tests << std::endl; //DEBUG
+        std::cout << "TIME TEST: " << duration.count() / tests << std::endl; //DEBUG
     }
 
     
