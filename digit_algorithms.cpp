@@ -1,4 +1,7 @@
+#define _USE_MATH_DEFINES
 #include <vector>
+#include <cmath>
+#include <complex>
 
 std::vector<long long> add(std::vector<long long> &first, std::vector<long long> &second, const long long base)
 // Суммирование
@@ -70,7 +73,7 @@ std::vector<long long> karatsubaMult(std::vector<long long> &first, std::vector<
 
     // Далее идет алгоритм из разряда разделяй и властвуй.
     /*Для маленьких чисел данный алгоритм не имеет смысла, т.к. даже наивный алгоритм целесообразнее (быстрее)*/
-    if (len <= 10) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
+    if (len <= 100000) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
 
     long long halflen = len / 2;
     std::vector<long long> firstLow(first); // малый разряд, наполняем разрядами из числа first
@@ -104,6 +107,64 @@ std::vector<long long> karatsubaMult(std::vector<long long> &first, std::vector<
     }
 
     result[2 * len - 1] += multHigh[len - 1];
+    while (result[result.size() - 1] == 0) result.pop_back();
+
+    return result;
+}
+
+void fft(std::vector<std::complex<double>> &a, bool invert)
+{
+    long len = a.size();
+    if (len == 1) return;
+    else {
+        std::vector<std::complex<double>> a0(len / 2, 0);
+        std::vector<std::complex<double>> a1(len / 2, 0);
+
+        for (long i = 0; i < len / 2; i++) {
+            a0[i] = a[2 * i];
+            a1[i] = a[2 * i + 1];
+        }
+        fft(a0, invert);
+        fft(a1, invert);
+
+        double angle = 2 * M_PI / len * (invert ? -1 : 1);
+        std::complex<double> omega(1);
+        std::complex<double> omegaN(cos(angle), sin(angle));
+
+        for (long i = 0; i < len / 2; i++) {
+            a[i] = (a0[i] + omega * a1[i]) / (invert ? 2. : 1.);
+            a[i + len / 2] = (a0[i] - omega * a1[i]) / (invert ? 2. : 1.);
+            omega *= omegaN;
+        }
+
+    }
+
+}
+
+std::vector<long long> dftMult(std::vector<long long> &first, std::vector<long long> &second, const long long base)
+{
+    std::vector<std::complex<double>> firstPoly(first.begin(), first.end());
+    std::vector<std::complex<double>> secondPoly(second.begin(), second.end());
+    long len = std::pow(2, 1 + std::ceil(log2(std::max(first.size(), second.size()))));
+
+    firstPoly.resize(len, 0);
+    secondPoly.resize(len, 0);
+    fft(firstPoly, false);
+    fft(secondPoly, false);
+
+    for (long i = 0; i < len; i++) {
+        firstPoly[i] *= secondPoly[i];
+    }
+
+    fft(firstPoly, true);
+    std::vector<long long> result(len + 1, 0);
+
+    for (long i = 0; i < len; i++) {
+        result[i] += round(firstPoly[i].real());
+        result[i + 1] += result[i] / base;
+        result[i] % base;
+    }
+
     while (result[result.size() - 1] == 0) result.pop_back();
 
     return result;

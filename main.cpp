@@ -57,30 +57,31 @@ long long hashFunction(const std::vector<long long> vec)
 
 int main()
 {
-    const long long max_len = 1000;
-    const long long tests = 1;
-    const long long digit_len = 9;
+    const long long max_len = 10e7;
+    const long long tests = 25; //50;
+    const long long digit_len = 1;
     const long long base = std::pow(10, digit_len);
 
-    for (long long i = 10; i < max_len; i *= 2) {
+    for (long long i = 10; i <= max_len; i *= 2) {
         srand(0);
         std::string firstString = getStringNumber(i);
         std::string secondString = getStringNumber(i);
-        std::cout << firstString << " " << secondString << std::endl; //DEBUG
+        //std::cout << firstString << " " << secondString << std::endl; //DEBUG
         std::vector<long long> firstVector = stringToVector(firstString, digit_len);
         std::vector<long long> secondVector = stringToVector(secondString, digit_len);
-        printVector(firstVector); //DEBUG
-        printVector(secondVector); //DEBUG
+        //printVector(firstVector); //DEBUG
+        //printVector(secondVector); //DEBUG
 
         auto start = std::chrono::high_resolution_clock::now();
         for (long long j = 0; j < tests; j++) {
-            std::vector<long long> result =  naiveMult(firstVector, secondVector, base);
-            printVector(result); //DEBUG
-            std::cout << "HashSum: " << hashFunction(result) << std::endl; //DEBUG
+            std::vector<long long> result =  dftMult(firstVector, secondVector, base);
+            //printVector(result); //DEBUG
+            //std::cout << i << " | " << "HashSum: " << hashFunction(result) << std::endl; //DEBUG
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds> (end - start);
-        std::cout << "TIME TEST: " << duration.count() / tests << std::endl; //DEBUG
+        //std::cout << "TIME TEST: " << duration.count() / tests << std::endl; //DEBUG
+        std::cout << duration.count() / tests << std::endl;
     }
 
     
