@@ -4,7 +4,7 @@
 #include "BigDigit.h"
 #include <cmath>
 #include <chrono>
-
+#define __cpplusplus
 
 std::string getStringNumber(const long long len)
 {
@@ -57,15 +57,14 @@ long long hashFunction(const std::vector<long long> vec)
 
 int main()
 {
-    const long long max_len = 10e7;
-    const long long tests = 25; //50;
+    const long long len = 100000;
+    const long long tests = 100; //50;
     const long long digit_len = 1;
     const long long base = std::pow(10, digit_len);
 
-    for (long long i = 10; i <= max_len; i *= 2) {
         srand(0);
-        std::string firstString = getStringNumber(i);
-        std::string secondString = getStringNumber(i);
+        std::string firstString = getStringNumber(len);
+        std::string secondString = getStringNumber(len);
         //std::cout << firstString << " " << secondString << std::endl; //DEBUG
         std::vector<long long> firstVector = stringToVector(firstString, digit_len);
         std::vector<long long> secondVector = stringToVector(secondString, digit_len);
@@ -80,20 +79,9 @@ int main()
         }
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds> (end - start);
+        //std::cout << "---------------------------------------------------" << std::endl;
         //std::cout << "TIME TEST: " << duration.count() / tests << std::endl; //DEBUG
         std::cout << duration.count() / tests << std::endl;
-    }
-
-    
-
-    
-    
-    
-
-    
-    
-    
-    
 
     return 0;
 }

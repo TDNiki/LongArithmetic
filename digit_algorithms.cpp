@@ -73,7 +73,7 @@ std::vector<long long> karatsubaMult(std::vector<long long> &first, std::vector<
 
     // Далее идет алгоритм из разряда разделяй и властвуй.
     /*Для маленьких чисел данный алгоритм не имеет смысла, т.к. даже наивный алгоритм целесообразнее (быстрее)*/
-    if (len <= 100000) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
+    if (len <= 10) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
 
     long long halflen = len / 2;
     std::vector<long long> firstLow(first); // малый разряд, наполняем разрядами из числа first
