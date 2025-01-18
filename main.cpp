@@ -4,7 +4,7 @@
 #include "BigDigit.h"
 #include <cmath>
 #include <chrono>
-#define __cpplusplus
+
 
 std::string getStringNumber(const long long len)
 {
