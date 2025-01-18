@@ -71,22 +71,19 @@ std::vector<long long> karatsubaMult(std::vector<long long> &first, std::vector<
     
     const long long len1 = first.size();
     const long long len2 = first.size();
-    long long len = std::max(len1, len2); // Все будет относительно максимального числа
-    // Если длина числа нечетная, то нужно довести до четного состояния
+    long long len = std::max(len1, len2);
     len = (len % 2 == 0) ? len : len + 1;
 
-    // Далее идет алгоритм из разряда разделяй и властвуй.
-    /*Для маленьких чисел данный алгоритм не имеет смысла, т.к. даже наивный алгоритм целесообразнее (быстрее)*/
-    if (len <= 10) return naiveMult(first, second, base); // Литерал нужно подобрать, протестировав данные
+    if (len <= 10) return naiveMult(first, second, base);
 
     long long halflen = len / 2;
-    std::vector<long long> firstLow(first); // малый разряд, наполняем разрядами из числа first
-    firstLow.resize(halflen, 0); // Оставляем только пол массива, заполняем нулями
-    std::vector<long long> SecondLow(second); // малый разряд
+    std::vector<long long> firstLow(first); 
+    firstLow.resize(halflen, 0); 
+    std::vector<long long> SecondLow(second);
     SecondLow.resize(halflen, 0);
-    std::vector<long long> FirstHigh(len1 > halflen ? first.begin() + halflen : first.end(), first.end()); // Старший разряд, нужно начать с половинки, для этого надо проверить
+    std::vector<long long> FirstHigh(len1 > halflen ? first.begin() + halflen : first.end(), first.end()); 
     FirstHigh.resize(halflen, 0);
-    std::vector<long long> SecondHigh(len2 > halflen ? second.begin() + halflen : second.end(), second.end()); // Старший разряд, нужно начать с половинки, для этого надо проверить
+    std::vector<long long> SecondHigh(len2 > halflen ? second.begin() + halflen : second.end(), second.end()); 
     SecondHigh.resize(halflen, 0);
 
     std::vector<long long> multLow = karatsubaMult(firstLow, SecondLow, base);
@@ -227,19 +224,18 @@ long long hashFunction(const std::vector<long long> vec)
 int main()
 {
     const long long max_len = 10e7;
-    const long long tests = 50; //50;
-    const long long digit_len = 9;
+    const long long tests = 1; // количество тестов
+    const long long digit_len = 9; // тут менять число, взависимости от алгоритма
     const long long base = std::pow(10, digit_len);
 
     for (long long i = 10; i <= max_len; i *= 2) {
         srand(0);
         std::string firstString = getStringNumber(i);
         std::string secondString = getStringNumber(i);
-        //std::cout << firstString << " " << secondString << std::endl; //DEBUG
+
         std::vector<long long> firstVector = stringToVector(firstString, digit_len);
         std::vector<long long> secondVector = stringToVector(secondString, digit_len);
-        //printVector(firstVector); //DEBUG
-        //printVector(secondVector); //DEBUG
+
 
         auto start = std::chrono::high_resolution_clock::now();
         for (long long j = 0; j < tests; j++) {
